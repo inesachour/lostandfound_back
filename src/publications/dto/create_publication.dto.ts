@@ -3,6 +3,6 @@ export class CreatePublicationDto {
   description: string;
   date: Date;
   location: string;
-  photos: [];
+  images: [];
   user: string;
 }

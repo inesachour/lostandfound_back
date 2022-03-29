@@ -15,6 +15,6 @@ export interface Quote {
   dateCreation: Date;
   date: Date;
   location: string;
-  photos: [];
+  images: [];
   user: string;
 }

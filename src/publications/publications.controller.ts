@@ -8,7 +8,9 @@ export class PublicationsController {
 
   @Post()
   async create(@Body() createPublicationDto: CreatePublicationDto) {
-    const newPublication = await this.publicationsService.addPublication(createPublicationDto);
+    const newPublication = await this.publicationsService.addPublication(
+      createPublicationDto,
+    );
     return newPublication;
   }
 }
