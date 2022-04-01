@@ -6,5 +6,6 @@ export class CreatePublicationDto {
   location: Location;
   images: [];
   owner: string;
-  status = 'perdu ou trouvé';
+  status: string;
+  type: string;
 }

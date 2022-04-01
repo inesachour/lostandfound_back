@@ -16,10 +16,13 @@ export class PublicationsService {
       title: createPublicationDto.title,
       description: createPublicationDto.description,
       date: createPublicationDto.date,
-      tempsCreation: Date(),
+      tempsCreation: new Date().toLocaleDateString(undefined,{ year: 'numeric', month: '2-digit', day: '2-digit'},),
       location: createPublicationDto.location,
       images: createPublicationDto.images,
       owner: createPublicationDto.owner,
+      category: createPublicationDto.category,
+      type: createPublicationDto.type,
+      status: 'en cours',
     });
     console.log(newPublication);
     const result = await newPublication.save();

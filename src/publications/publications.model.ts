@@ -8,6 +8,9 @@ export const PublicationSchema = new mongoose.Schema({
   location: { type: String, required: false },
   images: { type: String, required: false },
   owner: { type: String, required: true },
+  category: { type: String, required: true },
+  type: { type: String, required: true },
+  status: { type: String, required: true },
 });
 
 export interface Publication extends mongoose.Document {
@@ -20,4 +23,5 @@ export interface Publication extends mongoose.Document {
   category: string;
   status: string;
   owner: string;
+  type: string;
 }
