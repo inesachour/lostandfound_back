@@ -1,4 +1,4 @@
-import { Body, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Body, Inject, Injectable } from '@nestjs/common';
 import { CreatePublicationDto } from './dto/create_publication.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Publication } from './publications.model';
@@ -16,11 +16,12 @@ export class PublicationsService {
       title: createPublicationDto.title,
       description: createPublicationDto.description,
       date: createPublicationDto.date,
-      dateCreation: Date(),
+      tempsCreation: Date(),
       location: createPublicationDto.location,
       images: createPublicationDto.images,
-      user: createPublicationDto.user,
+      owner: createPublicationDto.owner,
     });
+    console.log(newPublication);
     const result = await newPublication.save();
     return result.id;
   }

@@ -2,7 +2,9 @@ export class CreatePublicationDto {
   title: string;
   description: string;
   date: Date;
-  location: string;
+  category: string;
+  location: Location;
   images: [];
-  user: string;
+  owner: string;
+  status = 'perdu ou trouvé';
 }
