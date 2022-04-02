@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { PublicationsService } from './publications.service';
 import { CreatePublicationDto } from './dto/create_publication.dto';
+import { PublicationSearchDto } from '../publications/dto/publication-search-dto';
+import { Publication } from './publications.model';
 
 @Controller('publications')
 export class PublicationsController {
@@ -12,5 +14,19 @@ export class PublicationsController {
       createPublicationDto,
     );
     return newPublication;
+  }
+
+  @Get()
+  async getSearch(@Query() publicationSearchDto: PublicationSearchDto) {
+    let pubs = [];
+    if (Object.keys(publicationSearchDto).length) {
+      pubs = await this.publicationsService.getPubsSearched(
+        publicationSearchDto,
+      );
+    } else {
+      pubs = await this.publicationsService.getPubs();
+    }
+    console.log(pubs);
+    return pubs as Publication[];
   }
 }
