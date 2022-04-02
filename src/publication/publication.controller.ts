@@ -1,23 +1,11 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { PublicationService } from './publication.service';
 import { PublicationSearchDto } from './dto/publication-search-dto';
-import { Publication } from './model/publication';
+import { Publication } from './publication';
 
 @Controller('api/publication')
 export class PublicationController {
   constructor(private readonly publicationService: PublicationService) {}
-
-  @Post()
-  async addPub(
-    @Body('title') title: string,
-    @Body('description') description: string,
-  ) {
-    const generatedId = await this.publicationService.insertPublication(
-      title,
-      description,
-    );
-    return { id: generatedId };
-  }
 
   @Get()
   async getSearch(@Query() publicationSearchDto: PublicationSearchDto) {
