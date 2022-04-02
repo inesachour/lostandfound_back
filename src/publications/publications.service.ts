@@ -15,8 +15,18 @@ export class PublicationsService {
     const newPublication = new this.publicationModel({
       title: createPublicationDto.title,
       description: createPublicationDto.description,
-      date: createPublicationDto.date,
-      tempsCreation: new Date().toLocaleDateString(undefined,{ year: 'numeric', month: '2-digit', day: '2-digit'},),
+      date: new Date(createPublicationDto.date).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      }),
+      tempsCreation: new Date().toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
       location: createPublicationDto.location,
       images: createPublicationDto.images,
       owner: createPublicationDto.owner,
