@@ -20,7 +20,7 @@ export class PublicationsService {
         month: '2-digit',
         day: '2-digit',
       }),
-      tempsCreation: new Date().toLocaleDateString(undefined, {
+      tempsCreation: new Date(createPublicationDto.tempsCreation).toLocaleDateString(undefined, {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
@@ -32,7 +32,7 @@ export class PublicationsService {
       owner: createPublicationDto.owner,
       category: createPublicationDto.category,
       type: createPublicationDto.type,
-      status: 'en cours',
+      status: createPublicationDto.status,
     });
     console.log(newPublication);
     const result = await newPublication.save();

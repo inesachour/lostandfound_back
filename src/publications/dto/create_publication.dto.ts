@@ -8,4 +8,5 @@ export class CreatePublicationDto {
   owner: string;
   status: string;
   type: string;
+  tempsCreation: Date;
 }

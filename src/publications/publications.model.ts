@@ -5,7 +5,7 @@ export const PublicationSchema = new mongoose.Schema({
   description: { type: String, required: true },
   date: { type: String, required: true },
   tempsCreation: { type: String, required: true },
-  location: { type: String, required: false },
+  location: { type: Object, required: false },
   images: { type: Array, required: false },
   owner: { type: String, required: true },
   category: { type: String, required: true },
@@ -18,7 +18,7 @@ export interface Publication extends mongoose.Document {
   description: string;
   tempsCreation: Date;
   date: Date;
-  location: string;
+  location: Location;
   images: [];
   category: string;
   status: string;
