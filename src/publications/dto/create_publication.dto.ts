@@ -3,8 +3,8 @@ export class CreatePublicationDto {
   description: string;
   date: Date;
   category: string;
-  location: Location;
-  images: [];
+  location: string;
+  images: string;
   owner: string;
   status: string;
   type: string;

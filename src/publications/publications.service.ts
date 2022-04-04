@@ -12,6 +12,7 @@ export class PublicationsService {
   ) {}
 
   async addPublication(createPublicationDto: CreatePublicationDto) {
+    console.log(JSON.parse(createPublicationDto.owner));
     const newPublication = new this.publicationModel({
       title: createPublicationDto.title,
       description: createPublicationDto.description,
@@ -27,9 +28,9 @@ export class PublicationsService {
         hour: '2-digit',
         minute: '2-digit',
       }),
-      location: createPublicationDto.location,
-      images: createPublicationDto.images,
-      owner: createPublicationDto.owner,
+      location: JSON.parse(createPublicationDto.location),
+      images: JSON.parse(createPublicationDto.images),
+      owner: JSON.parse(createPublicationDto.owner),
       category: createPublicationDto.category,
       type: createPublicationDto.type,
       status: createPublicationDto.status,
