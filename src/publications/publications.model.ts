@@ -5,9 +5,34 @@ export const PublicationSchema = new mongoose.Schema({
   description: { type: String, required: true },
   date: { type: String, required: true },
   tempsCreation: { type: String, required: true },
-  location: { type: String, required: false },
-  images: { type: String, required: false },
-  owner: { type: String, required: true },
+  location: { "coordinates": {
+    "type": [
+      "Double"
+    ]
+  },
+  "type": {
+    "type": "String"
+  }, required: false },
+  images: { "type": [
+    "Mixed"
+  ], required: false },
+  owner: {
+    "firstName": {
+      "type": "String",required:true
+    },
+    "lastName": {
+      "type": "String",required:true
+    },
+    "phone": {
+      "type": "String",required:true
+    },
+    "email": {
+      "type": "String",required:true
+    },
+    "photo": {
+      "type": "String",required:false
+    }
+  },
   category: { type: String, required: true },
   type: { type: String, required: true },
   status: { type: String, required: true },
