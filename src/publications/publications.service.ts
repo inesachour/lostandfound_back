@@ -3,6 +3,7 @@ import { CreatePublicationDto } from './dto/create_publication.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Publication } from './publications.model';
 import { Model } from 'mongoose';
+import { PublicationSearchDto } from '../publications/dto/publication-search-dto';
 
 @Injectable()
 export class PublicationsService {
@@ -38,5 +39,24 @@ export class PublicationsService {
     console.log(newPublication);
     const result = await newPublication.save();
     return result.id;
+  }
+
+  async getPubs() {
+    const pubs = await this.publicationModel.find().exec();
+    return pubs;
+  }
+
+  async getPubsSearched(publicationSearchDto: PublicationSearchDto) {
+    const { search } = publicationSearchDto;
+    let options = {};
+    options = {
+      $or: [
+        { title: new RegExp(search.toString(), 'i') },
+        { description: new RegExp(search.toString(), 'i') },
+        { category: new RegExp(search.toString(), 'i') },
+      ],
+    };
+    const pubs = await this.publicationModel.find(options).exec();
+    return pubs;
   }
 }
