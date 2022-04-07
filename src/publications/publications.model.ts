@@ -6,11 +6,10 @@ export const PublicationSchema = new mongoose.Schema({
   date: { type: String, required: true },
   tempsCreation: { type: String, required: true },
   location: {
-    coordinates: { type: ['Double'], required: true},
+    coordinates: { type: ['Double'], required: true },
     type: { type: 'String', required: true },
-    //required: true, //CHANGED
   },
-  images: { type: ['Mixed'], required: true},
+  images: { type: ['Mixed'], required: true },
   owner: {
     firstName: {
       type: 'String',
