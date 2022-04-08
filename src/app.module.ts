@@ -8,7 +8,7 @@ import { PublicationsModule } from './publications/publications.module';
 @Module({
   imports: [
     MongooseModule.forRoot(
-      'mongodb+srv://admin:v2U1XUy9DOg0SDOq@cluster0.7focf.mongodb.net/LostAndFound?retryWrites=true&w=majority',
+      'mongodb+srv://admin:oHh5dpmroHFFbovU@cluster0.7focf.mongodb.net/LostAndFound?retryWrites=true&w=majority',
     ),
     UsersModule,
     PublicationsModule,
