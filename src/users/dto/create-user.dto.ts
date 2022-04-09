@@ -5,4 +5,6 @@ export class CreateUserDto {
     readonly photo: string;
     readonly email: string;
     readonly password: string;
+    readonly verified: Boolean;
+
 }

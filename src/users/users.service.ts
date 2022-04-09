@@ -19,5 +19,7 @@ export class UsersService {
   async findOneByEmail(email:string): Promise<Model<User>> {
     return await this.userModel.findOne({email: email});
   }
-
+  async CheckVerified(email:string): Promise<Model<User>> {
+    return await this.userModel.findOne({email: email,verified:true});
+  }
 }
