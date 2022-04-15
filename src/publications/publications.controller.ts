@@ -26,7 +26,7 @@ export class PublicationsController {
     } else {
       pubs = await this.publicationsService.getPubs();
     }
-    console.log(pubs);
+    //console.log(pubs);
     return pubs as Publication[];
   }
 }

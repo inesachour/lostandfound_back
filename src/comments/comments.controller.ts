@@ -1,13 +1,17 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { CommentsService } from './comments.service';
+import { CreateCommentDto } from './dto/create_comment.dto';
 
 @Controller('comments')
 export class CommentsController {
 
-    constructor(private commentssService: CommentsService){}
+    constructor(private commentsService: CommentsService){}
 
     @Post()
-    addComment(){
-        return this.commentssService.addComment();
+    async addComment(@Body() createCommentDto: CreateCommentDto){
+        console.log("hya");
+        
+        const newComment = await this.commentsService.addComment(createCommentDto,);
+        return newComment;
     }
 }
