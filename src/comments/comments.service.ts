@@ -11,13 +11,16 @@ export class CommentsService {
       ) {}
 
     async addComment(createCommentDto: CreateCommentDto){
+      
         const newComment = new this.commentModel({
             text: createCommentDto.text,
             dateCreation : createCommentDto.dateCreation,
-            owner: JSON.parse(createCommentDto.owner),
+            commentOwner : createCommentDto.commentOwner,
+            publication : createCommentDto.publication,
           });
-          console.log(newComment);
+          
           const result = await newComment.save();
+         
           return result.id;
     }
 }

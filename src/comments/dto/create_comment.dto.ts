@@ -1,5 +1,6 @@
 export class CreateCommentDto {
     text: string;
     dateCreation: Date;
-    owner: string;
+    commentOwner: string;
+    publication: string;
   }

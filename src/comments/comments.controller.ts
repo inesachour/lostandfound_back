@@ -9,7 +9,6 @@ export class CommentsController {
 
     @Post()
     async addComment(@Body() createCommentDto: CreateCommentDto){
-        console.log("hya");
         
         const newComment = await this.commentsService.addComment(createCommentDto,);
         return newComment;
