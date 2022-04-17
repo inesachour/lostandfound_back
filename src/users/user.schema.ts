@@ -30,8 +30,9 @@ export const UserSchema = new mongoose.Schema({
         required: true
     },
     verified: {
-        type: Boolean,
-        required: true
+    type: Boolean,
+        required: true,
+        default: false,
     }
 });
 
@@ -58,7 +59,7 @@ UserSchema.pre('save', function(next){
 
     });
 
-}); 
+});
 
 UserSchema.methods.checkPassword = function(attempt, callback){
 

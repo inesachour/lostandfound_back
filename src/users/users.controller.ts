@@ -5,24 +5,20 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UsersController {
+  constructor(private usersService: UsersService) {}
 
-    constructor(private usersService: UsersService) {
+  @Post()
+  async create(@Body() createUserDto: CreateUserDto) {
+    return await this.usersService.create(createUserDto);
+  }
 
-    }
-
-    @Post() 
-    async create(@Body() createUserDto: CreateUserDto) {
-        return await this.usersService.create(createUserDto);
-    }
-
-    // This route will require successfully passing our default auth strategy (JWT) in order
-    // to access the route
-    @Get('test')
-    @UseGuards(AuthGuard())
-    testAuthRoute(){
-        return {
-            message: 'You did it!'
-        }
-    }
-
+  // This route will require successfully passing our default auth strategy (JWT) in order
+  // to access the route
+  @Get('test')
+  @UseGuards(AuthGuard())
+  testAuthRoute() {
+    return {
+      message: 'You did it!',
+    };
+  }
 }
