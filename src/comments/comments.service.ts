@@ -23,4 +23,9 @@ export class CommentsService {
          
           return result.id;
     }
+
+    async findComments(publicationID: string){
+      const comments = await this.commentModel.find({publication : publicationID}).exec();
+      return comments;
+    }
 }
