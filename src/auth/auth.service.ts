@@ -76,7 +76,7 @@ export class AuthService {
         return {
             expiresIn: 3600,
             token: jwt , 
-            user: user ,         
+            userId: user["_id"] ,         
         }
 
     }
