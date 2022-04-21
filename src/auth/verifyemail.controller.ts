@@ -19,7 +19,7 @@ export class verifyemailController {
         newUser.email,
       );
       if (sent) {
-        return 'USER_REGISTERED_SUCCESSFULLY';
+        return newUser;
       } else {
         return 'REGISTRATION.ERROR.MAIL_NOT_SENT';
       }

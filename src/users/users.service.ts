@@ -19,4 +19,10 @@ export class UsersService {
   async CheckVerified(email: string): Promise<Model<User>> {
     return await this.userModel.findOne({ email: email, verified: true });
   }
+
+async findUserById(id: string){
+    console.log(id);
+    const user = await this.userModel.findOne({_id : id}).exec();
+    return user;
+  }
 }

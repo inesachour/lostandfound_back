@@ -86,8 +86,8 @@ export class VerifyemailService {
       const mailOptions = {
         from: 'lostandfoundgl3@gmail.com',
         to: model.email, // list of receivers (separated by ,)
-        subject: 'Verify Email',
-        text: 'Verify Email',
+        subject: 'Verifier votre adresse email',
+        text: 'Verifier votre adresse email',
         html:
           'Salut! <br><br> Merci pour nous rejoindre !<br><br>' +
           '<a href=' +
