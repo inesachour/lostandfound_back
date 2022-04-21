@@ -2,6 +2,7 @@ import { Controller, Post, Get, Body, Param } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { VerifyemailService } from './verifyemail.service';
 import { UsersService } from '../users/users.service';
+import { ResponseError, ResponseSuccess } from './reponse.dto';
 
 @Controller('auth/v2/')
 export class verifyemailController {
@@ -21,10 +22,10 @@ export class verifyemailController {
       if (sent) {
         return newUser;
       } else {
-        return 'REGISTRATION.ERROR.MAIL_NOT_SENT';
+        return new ResponseError('REGISTRATION.ERROR.MAIL_NOT_SENT');
       }
     } catch (error) {
-      return error;
+      return new ResponseError('REGISTRATION.ERROR.GENERIC_ERROR');
     }
   }
 
@@ -34,9 +35,9 @@ export class verifyemailController {
       const isEmailVerified = await this.verifyemailService.verifyEmail(
         params.token,
       );
-      return 'LOGIN.EMAIL_VERIFIED';
+      return new ResponseSuccess('LOGIN.EMAIL_VERIFIED');
     } catch (error) {
-      return error;
+      return new ResponseError('LOGIN.ERROR');
     }
   }
 
@@ -48,12 +49,12 @@ export class verifyemailController {
         params.email,
       );
       if (isEmailSent) {
-        return 'LOGIN.EMAIL_RESENT';
+        return new ResponseSuccess('LOGIN.EMAIL_RESENT');
       } else {
-        return 'REGISTRATION.ERROR.MAIL_NOT_SENT';
+        return new ResponseError('REGISTRATION.ERROR.MAIL_NOT_SENT');
       }
     } catch (error) {
-      return 'LOGIN.ERROR.SEND_EMAIL';
+      return new ResponseError('LOGIN.ERROR.SEND_EMAIL');
     }
   }
 }
