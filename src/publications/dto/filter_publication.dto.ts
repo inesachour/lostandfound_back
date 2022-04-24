@@ -1,4 +1,5 @@
-export class PublicationSearchDto {
+export class FilterPublicationDto {
+    
     category: string;
   }
   

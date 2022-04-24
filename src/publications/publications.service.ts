@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Publication } from './publications.model';
 import { Model } from 'mongoose';
 import { PublicationSearchDto } from '../publications/dto/publication-search-dto';
+import { FilterPublicationDto } from './dto/filter_publication.dto';
 
 @Injectable()
 export class PublicationsService {
@@ -57,6 +58,18 @@ export class PublicationsService {
       ],
     };
     const pubs = await this.publicationModel.find(options).exec();
+    return pubs;
+  }
+
+  async filterPublication(filterPublicationDto: FilterPublicationDto){
+
+    let filter= {};
+
+    if(filterPublicationDto.category){
+      filter["category"] = filterPublicationDto.category;//{$regex:query.name,$options:"i"};
+    }
+    
+    const pubs = await this.publicationModel.find(filter).exec();
     return pubs;
   }
 }

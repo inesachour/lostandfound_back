@@ -3,6 +3,7 @@ import { PublicationsService } from './publications.service';
 import { CreatePublicationDto } from './dto/create_publication.dto';
 import { PublicationSearchDto } from '../publications/dto/publication-search-dto';
 import { Publication } from './publications.model';
+import { FilterPublicationDto } from './dto/filter_publication.dto';
 
 @Controller('publications')
 export class PublicationsController {
@@ -28,5 +29,13 @@ export class PublicationsController {
     }
     //console.log(pubs);
     return pubs as Publication[];
+  }
+
+  @Post("/filter")
+  async filter(@Body() filterPublicationDto : FilterPublicationDto){
+    
+    let pubs = await this.publicationsService.filterPublication(filterPublicationDto);
+    return pubs
+    
   }
 }
