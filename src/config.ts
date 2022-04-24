@@ -8,6 +8,6 @@ export default {
     port: '465',
     secure: true,
     user: 'apikey',
-    pass: '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',
+    pass: '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',
   },
 };
