@@ -2,9 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateCommentDto } from './dto/create_comment.dto';
+import { UpdateCommentDto } from './dto/update_comment.dto';
 
 @Injectable()
 export class CommentsService {
+    async deleteComment(id: string) {
+      const result = await this.commentModel.deleteOne({_id:id});
+      return result;
+    }
+    async updateComment(id: string,updateCommentDto:UpdateCommentDto) {
+      const result = await this.commentModel.findByIdAndUpdate(id,{text:updateCommentDto.text,dateModification:Date()})
+      return result;
+    }
     constructor(
         @InjectModel('Comment')
         private readonly commentModel: Model<Comment>,
