@@ -34,10 +34,7 @@ export class PublicationsController {
   @Post("/filter")
   async filter(@Body() filterPublicationDto : FilterPublicationDto){
     
-    console.log("ok");
-    
     let pubs = await this.publicationsService.filterPublication(filterPublicationDto);
-
     return pubs
     
   }

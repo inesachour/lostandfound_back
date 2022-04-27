@@ -64,9 +64,12 @@ export class PublicationsService {
   async filterPublication(filterPublicationDto: FilterPublicationDto){
 
     let filter= {};
+    console.log(filterPublicationDto.category);
+    
+    filter["type"] = filterPublicationDto.type.toLowerCase();
 
-    if(filterPublicationDto.category){
-      filter["category"] = filterPublicationDto.category;//{$regex:query.name,$options:"i"};
+    if(filterPublicationDto.category != ""){
+      filter["category"] = filterPublicationDto.category;
     }
     
     const pubs = await this.publicationModel.find(filter).exec();
