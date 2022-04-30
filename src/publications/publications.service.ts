@@ -23,7 +23,9 @@ export class PublicationsService {
         month: '2-digit',
         day: '2-digit',
       }),
-      tempsCreation: new Date(createPublicationDto.tempsCreation).toLocaleDateString(undefined, {
+      tempsCreation: new Date(
+        createPublicationDto.tempsCreation,
+      ).toLocaleDateString(undefined, {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
@@ -37,7 +39,7 @@ export class PublicationsService {
       type: createPublicationDto.type,
       status: createPublicationDto.status,
     });
-   // console.log(newPublication);
+    // console.log(newPublication);
     const result = await newPublication.save();
     return result.id;
   }
@@ -61,17 +63,22 @@ export class PublicationsService {
     return pubs;
   }
 
-  async filterPublication(filterPublicationDto: FilterPublicationDto){
+  async filterPublication(filterPublicationDto: FilterPublicationDto) {
+    const categories = [];
 
-    let filter= {};
-    console.log(filterPublicationDto.category);
-    
-    filter["type"] = filterPublicationDto.type.toLowerCase();
+    JSON.parse(filterPublicationDto.categories).forEach((e) => {
+      categories.push({ category: e });
+    });
 
-    if(filterPublicationDto.category != ""){
-      filter["category"] = filterPublicationDto.category;
-    }
-    
+    const filter = {
+      $and: [
+        { type: filterPublicationDto.type.toLowerCase() },
+        {
+          $or: categories,
+        },
+      ],
+    };
+
     const pubs = await this.publicationModel.find(filter).exec();
     return pubs;
   }

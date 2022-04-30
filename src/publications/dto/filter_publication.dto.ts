@@ -1,6 +1,4 @@
 export class FilterPublicationDto {
-    
-    category: string;
-    type: string;
-  }
-  
+  categories: string;
+  type: string;
+}

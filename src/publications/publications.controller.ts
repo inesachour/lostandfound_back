@@ -31,11 +31,11 @@ export class PublicationsController {
     return pubs as Publication[];
   }
 
-  @Post("/filter")
-  async filter(@Body() filterPublicationDto : FilterPublicationDto){
-    
-    let pubs = await this.publicationsService.filterPublication(filterPublicationDto);
-    return pubs
-    
+  @Post('/filter')
+  async filter(@Body() filterPublicationDto: FilterPublicationDto) {
+    const pubs = await this.publicationsService.filterPublication(
+      filterPublicationDto,
+    );
+    return pubs;
   }
 }
