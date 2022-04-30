@@ -66,6 +66,8 @@ export class PublicationsService {
   async filterPublication(filterPublicationDto: FilterPublicationDto) {
     const categories = [];
 
+    console.log(filterPublicationDto);
+
     JSON.parse(filterPublicationDto.categories).forEach((e) => {
       categories.push({ category: e });
     });
@@ -73,9 +75,7 @@ export class PublicationsService {
     const filter = {
       $and: [
         { type: filterPublicationDto.type.toLowerCase() },
-        {
-          $or: categories,
-        },
+        categories.length > 0 ? { $or: categories, } : {},
       ],
     };
 
