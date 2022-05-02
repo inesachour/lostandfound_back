@@ -66,7 +66,6 @@ export class PublicationsService {
   async filterPublication(filterPublicationDto: FilterPublicationDto) {
     const categories = [];
 
-    console.log(filterPublicationDto);
 
     JSON.parse(filterPublicationDto.categories).forEach((e) => {
       categories.push({ category: e });
@@ -75,11 +74,48 @@ export class PublicationsService {
     const filter = {
       $and: [
         { type: filterPublicationDto.type.toLowerCase() },
-        categories.length > 0 ? { $or: categories, } : {},
+        categories.length > 0 ? { $or: categories } : {},
+        // filterPublicationDto.longitude != "" ? {location : }: {}
+        filterPublicationDto.location.length != 0
+          ? {
+              location: {
+                type: "point",
+                coordinates: {
+                  $first: {
+                    $gte:
+                      JSON.parse(filterPublicationDto.location).coordinates[0] -
+                      5,
+                    $lt:
+                      JSON.parse(filterPublicationDto.location).coordinates[0] +
+                      5,
+                  },
+                  $last : {
+                    $gte:
+                      JSON.parse(filterPublicationDto.location).coordinates[1] -
+                      5,
+                    $lt:
+                      JSON.parse(filterPublicationDto.location).coordinates[1] +
+                      5,
+                  },
+                },
+
+              },
+              /*{
+
+
+
+              },*/
+            }
+          : {},
       ],
     };
 
+    //  console.log(JSON.parse(filterPublicationDto.location).coordinates[0]-0.05);
+    // console.log(JSON.parse(filterPublicationDto.location).coordinates[1]-0.05);
+
+
     const pubs = await this.publicationModel.find(filter).exec();
+    console.log(pubs);
     return pubs;
   }
 }
