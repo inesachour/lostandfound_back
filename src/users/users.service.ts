@@ -1,9 +1,6 @@
 import { Model } from 'mongoose';
-import {
-  HttpException,
-  HttpStatus,
-  Injectable
-} from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.interface';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -33,9 +30,13 @@ export class UsersService {
   }
 
   async updateUser(id: string, updateUserDto: UpdateUserDto) {
+    let password;
+    if (updateUserDto.password) {
+      password = await bcrypt.hash(updateUserDto.password, 10);
+    }
     try {
       const newUser = await this.userModel
-        .findByIdAndUpdate(id, updateUserDto, { new: true })
+        .findByIdAndUpdate(id, { password, ...updateUserDto }, { new: true })
         .exec();
       return newUser;
     } catch (e) {
