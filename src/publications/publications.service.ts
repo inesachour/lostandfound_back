@@ -14,7 +14,6 @@ export class PublicationsService {
   ) {}
 
   async addPublication(createPublicationDto: CreatePublicationDto) {
-    //console.log(JSON.parse(createPublicationDto.owner));
     const newPublication = new this.publicationModel({
       title: createPublicationDto.title,
       description: createPublicationDto.description,
@@ -39,7 +38,6 @@ export class PublicationsService {
       type: createPublicationDto.type,
       status: createPublicationDto.status,
     });
-    // console.log(newPublication);
     const result = await newPublication.save();
     return result.id;
   }
@@ -105,9 +103,6 @@ export class PublicationsService {
       ],
     };
 
-    //  console.log(JSON.parse(filterPublicationDto.location).coordinates[0]-0.05);
-    // console.log(JSON.parse(filterPublicationDto.location).coordinates[1]-0.05);
-
     const pubs = await this.publicationModel.find(filter).exec();
     let filteredpubs = [];
 
@@ -119,14 +114,32 @@ export class PublicationsService {
         const dateTable = pub.date.toString().split('/');
         const date = dateTable[2] + dateTable[1] + dateTable[0];
 
-        if(date >= firstDate && date <= secondDate){
+        if (date >= firstDate && date <= secondDate) {
           filteredpubs.push(pub);
         }
       });
     } else {
       filteredpubs = pubs;
     }
-    console.log(filteredpubs);
+    //console.log(JSON.parse(filterPublicationDto.location).coordinates[0]);
+    if (filterPublicationDto.location != '') {
+      const pubsaux = [];
+      pubs.forEach((element) => {
+        if (
+          element.location['coordinates'][0] >=
+            JSON.parse(filterPublicationDto.location).coordinates[0] - 0.5 &&
+          element.location['coordinates'][0] <=
+            JSON.parse(filterPublicationDto.location).coordinates[0] + 0.5 &&
+          element.location['coordinates'][1] >=
+            JSON.parse(filterPublicationDto.location).coordinates[1] - 0.5 &&
+          element.location['coordinates'][1] <=
+            JSON.parse(filterPublicationDto.location).coordinates[1] + 0.5
+        ) {
+          pubsaux.push(element);
+        }
+        filteredpubs = pubsaux;
+      });
+    }
     return filteredpubs;
   }
 }
