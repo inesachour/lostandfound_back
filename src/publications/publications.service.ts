@@ -66,32 +66,33 @@ export class PublicationsService {
   async filterPublication(filterPublicationDto: FilterPublicationDto) {
     const categories = [];
 
-    const firstDate =
+    const firstDateTable =
       filterPublicationDto.firstDate != ''
-        ? new Date(filterPublicationDto.firstDate).toLocaleDateString(
-            undefined,
-            {
+        ? new Date(filterPublicationDto.firstDate)
+            .toLocaleDateString(undefined, {
               year: 'numeric',
               month: '2-digit',
               day: '2-digit',
-            },
-          )
+            })
+            .split('/')
+        : '';
+
+    const firstDate = firstDateTable[2] + firstDateTable[1] + firstDateTable[0];
+
+    const secondDateTable =
+      filterPublicationDto.secondDate != ''
+        ? new Date(filterPublicationDto.secondDate)
+            .toLocaleDateString(undefined, {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })
+            .split('/')
         : '';
 
     const secondDate =
-      filterPublicationDto.secondDate != ''
-        ? new Date(filterPublicationDto.secondDate).toLocaleDateString(
-            undefined,
-            {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-            },
-          )
-        : '';
+      secondDateTable[2] + secondDateTable[1] + secondDateTable[0];
 
-    console.log(firstDate);
-    console.log(secondDate);
     JSON.parse(filterPublicationDto.categories).forEach((e) => {
       categories.push({ category: e });
     });
@@ -100,14 +101,6 @@ export class PublicationsService {
       $and: [
         { type: filterPublicationDto.type.toLowerCase() },
         categories.length > 0 ? { $or: categories } : {},
-        firstDate != '' && secondDate != ''
-          ? {
-              date: {
-                $lte: filterPublicationDto.secondDate,
-                $gte: filterPublicationDto.firstDate,
-              },
-            }
-          : {},
         // filterPublicationDto.longitude != "" ? {location : }: {}
       ],
     };
@@ -116,8 +109,24 @@ export class PublicationsService {
     // console.log(JSON.parse(filterPublicationDto.location).coordinates[1]-0.05);
 
     const pubs = await this.publicationModel.find(filter).exec();
+    let filteredpubs = [];
 
-    console.log(pubs);
-    return pubs;
+    if (
+      filterPublicationDto.secondDate != '' &&
+      filterPublicationDto.firstDate != ''
+    ) {
+      pubs.forEach((pub) => {
+        const dateTable = pub.date.toString().split('/');
+        const date = dateTable[2] + dateTable[1] + dateTable[0];
+
+        if(date >= firstDate && date <= secondDate){
+          filteredpubs.push(pub);
+        }
+      });
+    } else {
+      filteredpubs = pubs;
+    }
+    console.log(filteredpubs);
+    return filteredpubs;
   }
 }
