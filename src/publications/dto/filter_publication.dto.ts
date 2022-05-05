@@ -4,4 +4,6 @@ export class FilterPublicationDto {
   //longitude: string;
   //latitude: string;
   location : string;
+  firstDate : string;
+  secondDate : string;
 }

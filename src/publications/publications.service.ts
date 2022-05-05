@@ -66,7 +66,32 @@ export class PublicationsService {
   async filterPublication(filterPublicationDto: FilterPublicationDto) {
     const categories = [];
 
+    const firstDate =
+      filterPublicationDto.firstDate != ''
+        ? new Date(filterPublicationDto.firstDate).toLocaleDateString(
+            undefined,
+            {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            },
+          )
+        : '';
 
+    const secondDate =
+      filterPublicationDto.secondDate != ''
+        ? new Date(filterPublicationDto.secondDate).toLocaleDateString(
+            undefined,
+            {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            },
+          )
+        : '';
+
+    console.log(firstDate);
+    console.log(secondDate);
     JSON.parse(filterPublicationDto.categories).forEach((e) => {
       categories.push({ category: e });
     });
@@ -75,46 +100,23 @@ export class PublicationsService {
       $and: [
         { type: filterPublicationDto.type.toLowerCase() },
         categories.length > 0 ? { $or: categories } : {},
-        // filterPublicationDto.longitude != "" ? {location : }: {}
-        filterPublicationDto.location.length != 0
+        firstDate != '' && secondDate != ''
           ? {
-              location: {
-                type: "point",
-                coordinates: {
-                  $first: {
-                    $gte:
-                      JSON.parse(filterPublicationDto.location).coordinates[0] -
-                      5,
-                    $lt:
-                      JSON.parse(filterPublicationDto.location).coordinates[0] +
-                      5,
-                  },
-                  $last : {
-                    $gte:
-                      JSON.parse(filterPublicationDto.location).coordinates[1] -
-                      5,
-                    $lt:
-                      JSON.parse(filterPublicationDto.location).coordinates[1] +
-                      5,
-                  },
-                },
-
+              date: {
+                $lte: filterPublicationDto.secondDate,
+                $gte: filterPublicationDto.firstDate,
               },
-              /*{
-
-
-
-              },*/
             }
           : {},
+        // filterPublicationDto.longitude != "" ? {location : }: {}
       ],
     };
 
     //  console.log(JSON.parse(filterPublicationDto.location).coordinates[0]-0.05);
     // console.log(JSON.parse(filterPublicationDto.location).coordinates[1]-0.05);
 
-
     const pubs = await this.publicationModel.find(filter).exec();
+
     console.log(pubs);
     return pubs;
   }
