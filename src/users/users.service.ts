@@ -34,10 +34,14 @@ export class UsersService {
     if (updateUserDto.password) {
       password = await bcrypt.hash(updateUserDto.password, 10);
     }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    updateUserDto.password = password;
     try {
       const newUser = await this.userModel
-        .findByIdAndUpdate(id, { password, ...updateUserDto }, { new: true })
+        .findByIdAndUpdate(id, { ...password, ...updateUserDto }, { new: true })
         .exec();
+      console.log(password);
       return newUser;
     } catch (e) {
       throw new HttpException('Error updating profile', HttpStatus.BAD_REQUEST);
