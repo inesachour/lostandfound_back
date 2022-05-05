@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { User } from 'src/users/user.interface';
 
 export const PublicationSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -11,6 +12,10 @@ export const PublicationSchema = new mongoose.Schema({
   },
   images: { type: ['Mixed'], required: true },
   owner: {
+    _id: {
+      type: 'String',
+      required: false,
+    },
     firstName: {
       type: 'String',
       required: true,
@@ -46,6 +51,6 @@ export interface Publication extends mongoose.Document {
   images: [];
   category: string;
   status: string;
-  owner: string;
+  owner: User;
   type: string;
 }
