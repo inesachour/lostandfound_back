@@ -34,6 +34,11 @@ export class CommentsController {
     {
         return await this.commentsService.deleteComment(id);
     }
+    @Delete("/publication/:idPub")
+    async deleteCommentByPub(@Param("idPub") id: string)
+    {
+        return await this.commentsService.deleteCommentByPub(id);
+    }
 
 }
 

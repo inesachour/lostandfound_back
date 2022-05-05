@@ -6,6 +6,10 @@ import { UpdateCommentDto } from './dto/update_comment.dto';
 
 @Injectable()
 export class CommentsService {
+    async deleteCommentByPub(id: string) {
+      const result = await this.commentModel.deleteMany({publication:id});
+      return result;
+    }
     async deleteComment(id: string) {
       const result = await this.commentModel.deleteOne({_id:id});
       return result;
