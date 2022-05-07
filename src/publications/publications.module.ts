@@ -12,6 +12,7 @@ import { HttpModule } from '@nestjs/axios';
     ]),
     HttpModule
   ],
+  exports: [PublicationsService],
   controllers: [PublicationsController],
   providers: [PublicationsService],
 })

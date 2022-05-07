@@ -179,6 +179,9 @@ export class PublicationsService {
   }
 
 
-
+  async deletePubsByUserId(id: string){
+    const result = await this.publicationModel.deleteMany({ owner: id });
+    return result;
+  }
 
 }

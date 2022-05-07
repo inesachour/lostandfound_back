@@ -5,10 +5,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.interface';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PublicationsService } from 'src/publications/publications.service';
+import { CommentsService } from 'src/comments/comments.service';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel('User') private userModel: Model<User>) {}
+  constructor(@InjectModel('User') private userModel: Model<User>,
+    private pubsService: PublicationsService,
+    private commentService: CommentsService
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const createdUser = new this.userModel(createUserDto);
@@ -46,5 +51,12 @@ export class UsersService {
     } catch (e) {
       throw new HttpException('Error updating profile', HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async deleteUser(id: string){  
+    await this.pubsService.deletePubsByUserId(id);
+    await this.commentService.deleteCommentsByUserId(id);
+    const result = await this.userModel.deleteOne({ _id: id });
+    return result;
   }
 }
