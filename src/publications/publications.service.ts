@@ -10,29 +10,26 @@ import { UpdatePubDto } from './dto/update_pub_dto';
 
 @Injectable()
 export class PublicationsService {
-
   constructor(
     @InjectModel('Publication')
     private readonly publicationModel: Model<Publication>,
-    private httpService: HttpService
-  ) { }
+    private httpService: HttpService,
+  ) {}
 
-
-  async deletePub (idPub: string) {
-    await this.httpService.axiosRef.delete(`http://localhost:3000/comments/publication/${idPub}`).then(
-      async () => {
+  async deletePub(idPub: string) {
+    await this.httpService.axiosRef
+      .delete(`http://localhost:3000/comments/publication/${idPub}`)
+      .then(async () => {
         await this.publicationModel.deleteOne({
-          _id : idPub
+          _id: idPub,
         });
-        console.log("deleted successfully");
-      }
-    );
+        console.log('deleted successfully');
+      });
   }
-
 
   async addPublication(createPublicationDto: CreatePublicationDto) {
     //console.log(JSON.parse(createPublicationDto.owner));
-    console.log("owner ",createPublicationDto.owner);
+    console.log('owner ', createPublicationDto.owner);
 
     const newPublication = new this.publicationModel({
       title: createPublicationDto.title,
@@ -63,12 +60,13 @@ export class PublicationsService {
     return result.id;
   }
 
-
-  async updatePub(idPub:string,updatePub : UpdatePubDto){
-    const result = await this.publicationModel.findByIdAndUpdate(idPub,updatePub)
+  async updatePub(idPub: string, updatePub: UpdatePubDto) {
+    const result = await this.publicationModel.findByIdAndUpdate(
+      idPub,
+      updatePub,
+    );
     return result;
   }
-
 
   async getPubs() {
     const pubs = await this.publicationModel.find().exec();
@@ -170,15 +168,15 @@ export class PublicationsService {
     return filteredpubs;
   }
   async getMyPubs(idUser: string) {
-    let pubs = [];
-    (await this.getPubs()).forEach(element => {
-      if (element.owner._id == idUser)
-        pubs.push(element)
+    const pubs = [];
+    (await this.getPubs()).forEach((element) => {
+      if (element.owner._id == idUser) pubs.push(element);
     });
     return pubs;
   }
 
-
-
-
+  async getPublicationById(id: string) {
+    const pub = await this.publicationModel.findById(id);
+    return pub;
+  }
 }
