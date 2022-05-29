@@ -56,12 +56,16 @@ export class UsersService {
 
   async deleteUser(id: string) {
     const user = await this.findUserById(id);
-
-    delete user.password;
-    delete user.verified;
-    delete user.role;
-    console.log(user);
-    await this.pubsService.deletePubsByUserId(user);
+    const current = {
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phone: user.phone,
+      email: user.email,
+      photo: user.photo,
+    };
+    console.log(current);
+    await this.pubsService.deletePubsByUserId(current);
     await this.commentService.deleteCommentsByUserId(id);
     const result = await this.userModel.deleteOne({ _id: id });
     return result;
