@@ -14,7 +14,8 @@ export const UserSchema = new mongoose.Schema({
         type: String,
     },
     photo: {
-        type: String,
+        name: String,
+        url: String,
     },
     email: {
         type: String,
