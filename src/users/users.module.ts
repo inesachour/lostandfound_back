@@ -11,11 +11,11 @@ import { CommentsModule } from 'src/comments/comments.module';
   imports: [
     PublicationsModule,
     CommentsModule,
-    MongooseModule.forFeature([{name: 'User', schema: UserSchema}]),
-    PassportModule.register({ defaultStrategy: 'jwt', session: false })
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+    PassportModule.register({ defaultStrategy: 'jwt', session: false }),
   ],
   exports: [UsersService],
   controllers: [UsersController],
-  providers: [UsersService]
+  providers: [UsersService],
 })
 export class UsersModule {}

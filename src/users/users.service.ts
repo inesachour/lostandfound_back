@@ -10,9 +10,10 @@ import { CommentsService } from 'src/comments/comments.service';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel('User') private userModel: Model<User>,
+  constructor(
+    @InjectModel('User') private userModel: Model<User>,
     private pubsService: PublicationsService,
-    private commentService: CommentsService
+    private commentService: CommentsService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -53,8 +54,14 @@ export class UsersService {
     }
   }
 
-  async deleteUser(id: string){  
-    await this.pubsService.deletePubsByUserId(id);
+  async deleteUser(id: string) {
+    const user = await this.findUserById(id);
+
+    delete user.password;
+    delete user.verified;
+    delete user.role;
+    console.log(user);
+    await this.pubsService.deletePubsByUserId(user);
     await this.commentService.deleteCommentsByUserId(id);
     const result = await this.userModel.deleteOne({ _id: id });
     return result;
