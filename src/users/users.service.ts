@@ -18,7 +18,6 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     const createdUser = new this.userModel(createUserDto);
-    createdUser.photo = JSON.parse(createUserDto.photo);
     return await createdUser.save();
   }
 
