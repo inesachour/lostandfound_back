@@ -6,6 +6,7 @@ import {
   UseGuards,
   Param,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
@@ -42,5 +43,10 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     return await this.usersService.updateUser(id, updateUserDto);
+  }
+
+  @Delete('/delete/:id')
+  async deleteUser(@Param('id') id: string){
+    return await this.usersService.deleteUser(id);
   }
 }
