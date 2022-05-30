@@ -179,4 +179,9 @@ export class PublicationsService {
     const pub = await this.publicationModel.findById(id);
     return pub;
   }
+
+  async deletePubsByUserId(idUser: string) {
+    const result = await this.publicationModel.deleteMany({ 'owner._id': idUser });
+    return result;
+  }
 }

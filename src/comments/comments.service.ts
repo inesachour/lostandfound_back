@@ -41,4 +41,9 @@ export class CommentsService {
       const comments = await this.commentModel.find({publication : publicationID}).exec();
       return comments;
     }
+
+  async deleteCommentsByUserId(id: string) {
+    const result = await this.commentModel.deleteMany({ commentOwner: id });
+    return result;
+  }
 }
