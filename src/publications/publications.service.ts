@@ -29,8 +29,8 @@ export class PublicationsService {
 
   async addPublication(createPublicationDto: CreatePublicationDto) {
     //console.log(JSON.parse(createPublicationDto.owner));
-    console.log('owner ', createPublicationDto.owner);
-
+    //console.log('owner ', createPublicationDto.owner);
+    console.log("ok");
     const newPublication = new this.publicationModel({
       title: createPublicationDto.title,
       description: createPublicationDto.description,
@@ -56,6 +56,7 @@ export class PublicationsService {
       status: createPublicationDto.status,
     });
     // console.log(newPublication);
+    console.log("ok");
     const result = await newPublication.save();
     return result.id;
   }

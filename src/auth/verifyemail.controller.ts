@@ -16,9 +16,11 @@ export class verifyemailController {
     try {
       const newUser = await this.userService.create(createUserDto);
       await this.verifyemailService.createEmailToken(newUser.email);
+
       const sent = await this.verifyemailService.sendEmailVerification(
         newUser.email,
       );
+      console.log('ok');
       if (sent) {
         return newUser;
       } else {

@@ -73,6 +73,7 @@ export class VerifyemailService {
     console.log(model.email);
 
     if (model && model.emailToken) {
+
       const transporter = nodemailer.createTransport({
         host: config.mail.host,
         port: config.mail.port,

@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Model, Schema, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -7,6 +7,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PublicationsService } from 'src/publications/publications.service';
 import { CommentsService } from 'src/comments/comments.service';
+import ObjectId = require('mongoose');
 
 @Injectable()
 export class UsersService {
@@ -31,7 +32,8 @@ export class UsersService {
 
   async findUserById(userId: string) {
     console.log(userId);
-    const user = await this.userModel.findOne({ _id: userId }).exec();
+    //const user = await this.userModel.findOne({ _id : userId }).exec();
+    const user = await this.userModel.findById(userId).exec();
     console.log(user);
     return user;
   }
@@ -45,8 +47,11 @@ export class UsersService {
     // @ts-ignore
     updateUserDto.password = password;
     try {
+      const updatedUser = updateUserDto;
+      // @ts-ignore
+      updatedUser.photo = JSON.parse(updateUserDto.photo);
       const newUser = await this.userModel
-        .findByIdAndUpdate(id, { ...password, ...updateUserDto }, { new: true })
+        .findByIdAndUpdate(id, { ...password, ...updatedUser }, { new: true })
         .exec();
       console.log(password);
       return newUser;
