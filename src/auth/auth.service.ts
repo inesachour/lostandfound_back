@@ -18,6 +18,7 @@ export class AuthService {
 
   async validateUserByPassword(loginAttempt: LoginUserDto) {
     // This will be used for the initial login
+
     const userToAttempt: any = await this.usersService.findOneByEmail(
       loginAttempt.email,
     );
