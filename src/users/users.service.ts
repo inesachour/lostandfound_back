@@ -55,17 +55,17 @@ export class UsersService {
   }
 
   async deleteUser(id: string) {
-    const user = await this.findUserById(id);
-    const current = {
-      _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      phone: user.phone,
-      email: user.email,
-      photo: user.photo,
-    };
-    console.log(current);
-    await this.pubsService.deletePubsByUserId(current);
+    // const user = await this.findUserById(id);
+    // const current = {
+    //   _id: user._id,
+    //   firstName: user.firstName,
+    //   lastName: user.lastName,
+    //   phone: user.phone,
+    //   email: user.email,
+    //   photo: user.photo,
+    // };
+    // console.log(current);
+    await this.pubsService.deletePubsByUserId(id);
     await this.commentService.deleteCommentsByUserId(id);
     const result = await this.userModel.deleteOne({ _id: id });
     return result;

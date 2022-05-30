@@ -180,8 +180,8 @@ export class PublicationsService {
     return pub;
   }
 
-  async deletePubsByUserId(owner: any) {
-    const result = await this.publicationModel.deleteMany({ owner: owner });
+  async deletePubsByUserId(idUser: string) {
+    const result = await this.publicationModel.deleteMany({ 'owner._id': idUser });
     return result;
   }
 }
