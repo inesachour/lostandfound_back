@@ -40,6 +40,7 @@ export class VerifyemailService {
           },
           { upsert: true },
         );
+      console.log(emailVerificationModel);
       return true;
     }
   }
@@ -67,10 +68,10 @@ export class VerifyemailService {
   }
 
   async sendEmailVerification(email: string) {
+
     const model = await this.emailVerificationModel.findOne({ email: email });
-    console.log('loggin hereeeeeeeeeeeee');
+
     console.log(model);
-    console.log(model.email);
 
     if (model && model.emailToken) {
 

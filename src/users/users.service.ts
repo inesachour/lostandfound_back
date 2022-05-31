@@ -7,7 +7,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PublicationsService } from 'src/publications/publications.service';
 import { CommentsService } from 'src/comments/comments.service';
-import ObjectId = require('mongoose');
 
 @Injectable()
 export class UsersService {
@@ -71,6 +70,7 @@ export class UsersService {
     //   photo: user.photo,
     // };
     // console.log(current);
+    console.log(id);
     await this.pubsService.deletePubsByUserId(id);
     await this.commentService.deleteCommentsByUserId(id);
     const result = await this.userModel.deleteOne({ _id: id });
