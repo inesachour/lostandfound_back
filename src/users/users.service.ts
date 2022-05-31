@@ -24,7 +24,6 @@ export class UsersService {
   }
 
   async findUserById(userId: string) {
-    console.log(userId);
     const user = await this.userModel.findOne({ _id: userId }).exec();
     return user;
   }
@@ -41,7 +40,6 @@ export class UsersService {
       const newUser = await this.userModel
         .findByIdAndUpdate(id, { ...password, ...updateUserDto }, { new: true })
         .exec();
-      console.log(password);
       return newUser;
     } catch (e) {
       throw new HttpException('Error updating profile', HttpStatus.BAD_REQUEST);

@@ -18,7 +18,6 @@ export class CommentsController {
     @Get('/:publicationID')
     async findComments(@Param('publicationID') publicationID: string){
         const result = await this.commentsService.findComments(publicationID);
-        console.log(result);
         return result;
     }
 

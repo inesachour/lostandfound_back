@@ -42,15 +42,7 @@ export class PublicationsService {
         month: '2-digit',
         day: '2-digit',
       }),
-      tempsCreation: new Date(
-        createPublicationDto.tempsCreation,
-      ).toLocaleDateString(undefined, {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-      }),
+      tempsCreation: new Date( createPublicationDto.tempsCreation, ).toLocaleDateString(undefined, {year: 'numeric',month: '2-digit', day: '2-digit', hour: '2-digit',minute: '2-digit',  }),
       location: JSON.parse(createPublicationDto.location),
       images: JSON.parse(createPublicationDto.images),
       owner: JSON.parse(createPublicationDto.owner),
@@ -58,6 +50,7 @@ export class PublicationsService {
       type: createPublicationDto.type,
       status: createPublicationDto.status,
     });
+    
     // console.log(newPublication);
     const result = await newPublication.save();
     return result.id;
