@@ -71,6 +71,7 @@ export class UsersService {
     //   photo: user.photo,
     // };
     // console.log(current);
+    console.log(id);
     await this.pubsService.deletePubsByUserId(id);
     await this.commentService.deleteCommentsByUserId(id);
     const result = await this.userModel.deleteOne({ _id: id });
