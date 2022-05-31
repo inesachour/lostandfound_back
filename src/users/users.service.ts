@@ -1,4 +1,4 @@
-import { Model, Schema, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -19,6 +19,7 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     const createdUser = new this.userModel(createUserDto);
+    createdUser.photo = JSON.parse(createUserDto.photo);
     return await createdUser.save();
   }
 
