@@ -7,7 +7,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PublicationsService } from 'src/publications/publications.service';
 import { CommentsService } from 'src/comments/comments.service';
-import ObjectId = require('mongoose');
 
 @Injectable()
 export class UsersService {
