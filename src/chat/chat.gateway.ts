@@ -43,11 +43,7 @@ export class ChatGateway {
   {    
     console.log("d5alt");
     //console.log(await this.chatService.try());
-   
-
-    const chats= await this.chatService.try(id);
-    console.log(chats);
-    
+    const chats= await this.chatService.try(id);    
     sender.emit("conversation", chats )
   }
 
@@ -71,11 +67,8 @@ export class ChatGateway {
       clients[createChatDto.sender].emit("newChat", createChatDto);
     }
     console.log(sender.id);    
-    console.log(await this.chatService.create(createChatDto));
-    console.log("hiii");
-    
-
-    
+    await this.chatService.create(createChatDto);
+        
     //sender.emit("newChat",createChatDto);
     //sender.broadcast.emit("newChat",createChatDto);
   }

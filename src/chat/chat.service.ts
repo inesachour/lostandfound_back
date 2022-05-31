@@ -45,10 +45,8 @@ export class ChatService {
 
 
   async try(id:any) {
-    console.log("try")
     console.log(id)
     var chats= await this.ChatModel.find({$or:[{sender:id},{recipient:id}]}).exec();
-    console.log("chats"+chats);
     let chats1=[];
     chats.forEach((element)=>{
       if(element.sender != id )
@@ -57,14 +55,9 @@ export class ChatService {
       chats1.push(element.recipient);
     });
     
-    console.log(chats1);
-    
     let chatsUniq = chats1.filter((item, i, ar) => ar.indexOf(item) === i);
 
     let result = []; 
-
-    console.log("chatsUniq"+chatsUniq);
-
 
     for(var i=0;i<chatsUniq.length;i++)
       {
