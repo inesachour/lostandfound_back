@@ -6,6 +6,7 @@ import {
   UseGuards,
   Param,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
@@ -33,6 +34,7 @@ export class UsersController {
 
   @Get('/:userID')
   async getUser(@Param('userID') userID: string) {
+    console.log("okokkkkkkk");
     return await this.usersService.findUserById(userID);
   }
 
@@ -41,6 +43,12 @@ export class UsersController {
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
+
     return await this.usersService.updateUser(id, updateUserDto);
+  }
+
+  @Delete('/delete/:id')
+  async deleteUser(@Param('id') id: string){
+    return await this.usersService.deleteUser(id);
   }
 }

@@ -10,6 +10,7 @@ import { CommentsService } from './comments.service';
       { name: 'Comment', schema: CommentSchema },
     ]),
   ],
+  exports: [CommentsService],
   controllers: [CommentsController],
   providers: [CommentsService]
 })
