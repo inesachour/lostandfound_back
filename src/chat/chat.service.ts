@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ReturnModelType} from '@typegoose/typegoose';
 import { InjectModel } from 'nestjs-typegoose';
+import { UsersService } from 'src/users/users.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
 import { Chat } from './entities/chat.entity';
@@ -10,7 +11,8 @@ export class ChatService {
 
 
   constructor(
-    @InjectModel(Chat) private readonly ChatModel : ReturnModelType<typeof Chat>
+    @InjectModel(Chat) private readonly ChatModel : ReturnModelType<typeof Chat>,
+    private usersService: UsersService
   ){}
 
 
@@ -30,21 +32,46 @@ export class ChatService {
 
   async findByClient(id:any) {
     console.log("findByClient");
-    var res1=[];
-    const result = await this.ChatModel.find().exec();
-    for(var i =0;i<result.length;i++)
-      if ((result[i].sender==id.myID && result[i].recipient==id.otherID )||(result[i].sender==id.otherID && result[i].recipient==id.myID))
-       {
-         res1.push(result[i]);
-        }
-    console.log(res1);
-    
-    return res1;
+    const result = await this.ChatModel.find({$or:[{sender:id.myID,recipient:id.otherID},{sender:id.otherID,recipient:id.myID}]}).exec();
+    return result;
   }
   update(id: number, updateChatDto: UpdateChatDto) {
     return `This action updates a #${id} chat`;
   }
   remove(id: number) {
     return `This action removes a #${id} chat`;
+  }
+
+
+
+  async try(id:any) {
+    console.log(id)
+    var chats= await this.ChatModel.find({$or:[{sender:id},{recipient:id}]}).exec();
+    let chats1=[];
+    chats.forEach((element)=>{
+      if(element.sender != id )
+      chats1.push(element.sender);
+      else
+      chats1.push(element.recipient);
+    });
+    
+    let chatsUniq = chats1.filter((item, i, ar) => ar.indexOf(item) === i);
+
+    let result = []; 
+
+    for(var i=0;i<chatsUniq.length;i++)
+      {
+        console.log(chatsUniq[i]);
+        
+      let lastMsg = await this.ChatModel
+          .findOne({$or:[{sender:id,recipient:chatsUniq[i]},{sender:chatsUniq[i],recipient:id}]})
+            .sort({_id:"descending"}).exec();
+      let otherUser = await this.usersService.findUserById(chatsUniq[i]);
+      otherUser["photo"] = JSON.stringify(otherUser.photo);
+      console.log(otherUser);
+      result.push({"lastMsg":lastMsg,"otherUser":otherUser});
+      }
+    return result;
+    
   }
 }

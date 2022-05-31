@@ -20,7 +20,7 @@ export class ChatGateway {
   }
    handleConnection(socket:any){
     let id;
-  socket.on("signin",async (idObj)=>{
+     socket.on("signin",async (idObj)=>{
      id=idObj;
      clients[id.myID] = socket;
     const res = await this.chatService.findByClient(id);
@@ -38,17 +38,41 @@ export class ChatGateway {
   }
 
   @Bind(MessageBody(), ConnectedSocket())
+  @SubscribeMessage('try')
+  async try(id:any,sender:any)
+  {    
+    console.log("d5alt");
+    //console.log(await this.chatService.try());
+    const chats= await this.chatService.try(id);    
+    sender.emit("conversation", chats )
+  }
+
+ /* @SubscribeMessage('conversation')
+  async getConversations(@MessageBody() obj: any) {
+    return await this.chatService.try(obj.myID)
+    }
+*/
+
+  @Bind(MessageBody(), ConnectedSocket())
   @SubscribeMessage('chat')
-  handleNewMessage(createChatDto: CreateChatDto, sender:any){   
+  async handleNewMessage(createChatDto: CreateChatDto, sender:any){   
 
     console.log('new chat',createChatDto);
     if (clients[createChatDto.recipient]) 
-    clients[createChatDto.recipient].emit("newChat", createChatDto);
+    {
+      clients[createChatDto.recipient].emit("newChat", createChatDto);
+    }
+    if (clients[createChatDto.sender]) 
+    {
+      clients[createChatDto.sender].emit("newChat", createChatDto);
+    }
     console.log(sender.id);    
-    this.chatService.create(createChatDto);
+    await this.chatService.create(createChatDto);
+        
     //sender.emit("newChat",createChatDto);
     //sender.broadcast.emit("newChat",createChatDto);
   }
+
 
   ///////////////////////////////////////
   @SubscribeMessage('createChat')

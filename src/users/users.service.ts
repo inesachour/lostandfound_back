@@ -31,10 +31,7 @@ export class UsersService {
   }
 
   async findUserById(userId: string) {
-    console.log(userId);
-    //const user = await this.userModel.findOne({ _id : userId }).exec();
     const user = await this.userModel.findById(userId).exec();
-    console.log(user);
     return user;
   }
 
