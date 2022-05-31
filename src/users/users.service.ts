@@ -35,13 +35,18 @@ export class UsersService {
     if (updateUserDto.password) {
       password = await bcrypt.hash(updateUserDto.password, 10);
     }
+    console.log('okokkkkkkk');
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     updateUserDto.password = password;
+    // @ts-ignore
+    updateUserDto.photo = JSON.parse(updateUserDto.photo);
     try {
+      console.log('okokkkkkkk');
       const newUser = await this.userModel
         .findByIdAndUpdate(id, { ...password, ...updateUserDto }, { new: true })
         .exec();
+
       console.log(password);
       return newUser;
     } catch (e) {

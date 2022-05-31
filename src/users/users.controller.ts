@@ -33,6 +33,7 @@ export class UsersController {
 
   @Get('/:userID')
   async getUser(@Param('userID') userID: string) {
+    console.log("okokkkkkkk");
     return await this.usersService.findUserById(userID);
   }
 
@@ -41,6 +42,7 @@ export class UsersController {
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
+
     return await this.usersService.updateUser(id, updateUserDto);
   }
 }
